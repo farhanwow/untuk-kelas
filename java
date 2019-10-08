@@ -60,7 +60,7 @@ public class PersegiPanjang {
             double luas = pp.Luas(iPanjang, iLebar);
             double keliling = pp.Keliling(iPanjang,iLebar);
             
-            JOptionPane.showMessageDialog(null,"Luas : "+luas+"\nkeliling"+keliling);
+            JOptionPane.showMessageDialog(null,"Luas : "+luas+"\nkeliling : "+keliling);
 
     }
 
