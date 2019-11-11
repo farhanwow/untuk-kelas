@@ -10,8 +10,6 @@
 package pertemuan_7;
 
 import javax.swing.JOptionPane;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 /**
  *
  * @author HP
@@ -26,13 +24,17 @@ public class IPK {
     public int getUKT(int menu) {
         if (menu==1) 
             UKT = 1500000;
-        else if (menu==2) 
+        
+        else if (menu==2)
             UKT = 1750000;
+        
         else if (menu==3) 
             UKT = 2500000;
+        
         else if (menu==4) 
             UKT = 3500000;
         
+       
         return UKT;
     }
 
@@ -50,10 +52,12 @@ public class IPK {
     public int getBantuan(double mthdIPK) {
         IPK = mthdIPK;
         
-        if (IPK >= 3 && IPK <= 3.5) 
+        if (IPK >= 3 && IPK <= 3.5) {
             Bantuan = (int)(UKT*0.05);
-        else if (IPK > 3.5 && IPK <= 4.0) 
+        }
+        else if (IPK > 3.5 && IPK <= 4.0) {
             Bantuan = (int)(UKT*0.075);
+        }
         
         return Bantuan;
     }
@@ -64,12 +68,10 @@ public class IPK {
 
     public int getIuranModul(double mthdIPK) {
         IPK = mthdIPK;
-        
         if (IPK >= 3.75 && IPK <= 4)
-            IuranModul = 0;  
+          IuranModul = 0;  
         else if(IPK >= 1 && IPK < 3.75)
-            IuranModul = 350000;
-        
+           IuranModul = 350000;
         return IuranModul;
     }
 
@@ -78,7 +80,7 @@ public class IPK {
     }
     
 
-    public int getBiayaKuliah() {
+  public int getBiayaKuliah() {
         return BiayaKuliah = (UKT+IuranModul) - Bantuan;
     }
 
@@ -87,57 +89,35 @@ public class IPK {
     }
 
     public static void main(String[] args) {
-        // function menambah titik pada uang
-        DecimalFormat kursIDR = (DecimalFormat) DecimalFormat.getCurrencyInstance();
-        DecimalFormatSymbols formatRP = new DecimalFormatSymbols();
-        
-        formatRP.setCurrencySymbol("Rp. ");
-        formatRP.setMonetaryDecimalSeparator(',');
-        formatRP.setGroupingSeparator('.');
-        
-        kursIDR.setDecimalFormatSymbols(formatRP);
-        //   inisialisasi kelas dan variable
-        IPK StatusMHS = new IPK();
+        IPK Bayar = new IPK();
         
         String strUKT = "";
         String strIPK = "";
-        StatusMHS.UKT = 0;
-        StatusMHS.IPK = 0.0;
-        // deklarasi       
-        while(true) {
-            strUKT = JOptionPane.showInputDialog("masukkan kategori UKT anda");
-            StatusMHS.UKT = Integer.parseInt(strUKT);
-            if (StatusMHS.UKT < 1  || StatusMHS.UKT > 4 ) {
-                JOptionPane.showMessageDialog(null, "ERROR : kategori UKT hanya dapat di isi dengan bilangan bulat (1-4)");
-                continue;
+        int iUKT = 0;
+        double dblIPK = 0.0;
+        strUKT = JOptionPane.showInputDialog("masukkan kategori UKT anda");
+        iUKT = Integer.parseInt(strUKT);
+       
+       
+        if (iUKT < 1  || iUKT > 4 ) 
+            JOptionPane.showMessageDialog(null, "ERROR : kategori UKT hanya dapat di isi dengan bilangan bulat (1-4)");
+        else if(iUKT >= 1 && iUKT <= 4) {
+             strIPK = JOptionPane.showInputDialog("masukkan IPK anda");
+             dblIPK = Double.parseDouble(strIPK);
+           if (dblIPK < 1.0 || dblIPK > 4.0) 
+                JOptionPane.showMessageDialog(null, "ERROR : rentang IPK yang dapat di input ialah 1 - 4");
+           else if (dblIPK >= 1.0 && dblIPK <= 4.0) {
+                JOptionPane.showMessageDialog(null,"Jenis UKT = "+iUKT+
+                                                                                          "\nUKT = RP."+Bayar.getUKT(iUKT)+
+                                                                                          "\nIPK = "+ dblIPK+
+                                                                                          "\nIuran Modul = RP."+Bayar.getIuranModul(dblIPK)+
+                                                                                          "\nBantuan = RP."+Bayar.getBantuan(dblIPK)+
+                                                                                          "\nTotal = (UKT + Iuran Modul) - Bantuan"+
+                                                                                          "\n          = (RP."+Bayar.getUKT(iUKT)+" + RP."+Bayar.getIuranModul(dblIPK)+") - RP."+Bayar.getBantuan(dblIPK)+
+                                                                                          "\n          = RP."+Bayar.getBiayaKuliah() );
             }
-            else if(StatusMHS.UKT >= 1 && StatusMHS.UKT <= 4) {
-                while(true) {
-                    strIPK = JOptionPane.showInputDialog("masukkan IPK anda");
-                    StatusMHS.IPK = Double.parseDouble(strIPK);
-                    if (StatusMHS.IPK < 1.0 || StatusMHS.IPK > 4.0) {
-                        JOptionPane.showMessageDialog(null, "ERROR : rentang IPK yang dapat di input ialah 1 - 4");
-                        continue;
-                    }
-                    else if (StatusMHS.IPK >= 1.0 && StatusMHS.IPK <= 4.0) {
-                        JOptionPane.showMessageDialog(null, "Jenis UKT = "+StatusMHS.UKT+
-                                                            "\nUKT = "+kursIDR.format(StatusMHS.getUKT(StatusMHS.UKT))+
-                                                            "\nIPK = "+ StatusMHS.IPK+
-                                                            "\nIuran Modul = "+kursIDR.format(StatusMHS.getIuranModul(StatusMHS.IPK))+
-                                                            "\nBantuan = "+kursIDR.format(StatusMHS.getBantuan(StatusMHS.IPK))+
-                                                            "\nTotal = (UKT + Iuran Modul) - Bantuan"+
-                                                            "\n          = ("+kursIDR.format(StatusMHS.getUKT(StatusMHS.UKT))+" + "+
-                                                                                kursIDR.format(StatusMHS.getIuranModul(StatusMHS.IPK))+") - "+
-                                                                                kursIDR.format(StatusMHS.getBantuan(StatusMHS.IPK))+
-                                                            "\n          = "+kursIDR.format(StatusMHS.getBiayaKuliah()) );
-                        break;
-                    }
-                }
-            }
-        break;
+           
         }
-        //Akhir deklarasi
         
     }
-    
 }
